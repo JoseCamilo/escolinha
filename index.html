@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Escolinha</title>
+    <link rel="stylesheet" href="icons/material.css">
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <link rel="stylesheet" href="css/estilos.css">
+
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/lib/materialize.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="js/app.module.js"></script>
+    <script src="js/controllers/alunos-controller.js"></script>
+</head>
+<body>
+
+    <div class="topo-fixo z-depth-1">
+        <div class="valign-wrapper cyan darken-4 white-text">
+            <h5 class="titulo">Escolinha</h5>
+
+            <div>
+
+                <i class="material-icons waves-effect waves-light
+                          waves-circle dropdown-button"
+                    data-activates="submenu" data-gutter="5"
+                    data-constrainwidth="false">
+                        more_vert
+                </i>
+
+                <ul id="submenu" class="dropdown-content">
+                    <li><a class="black-text modal-trigger" href="#fabpresenca">+Presença</a></li>
+                    <li><a class="black-text modal-trigger" href="#fabpagamento">+Pagamento</a></li>
+                    <li><a class="black-text modal-trigger" href="#fabalunos">+Aluno</a></li>
+                    <li><a class="black-text modal-trigger" href="#fabturmas">+Turma</a></li>
+                    <li><a class="black-text modal-trigger" href="#fabevento">+Evento</a></li>
+                    <li><a class="black-text modal-trigger" href="#fabcobranca">+Cobrança</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <ul class="tabs cyan darken-4">
+            <li id="tabaluno" class="tab">
+                <a href="#alunos"
+                   class="white-text waves-effect waves-light">
+                    <i class="material-icons">person</i>
+                </a>
+            </li>
+            <li class="tab">
+                <a href="#turmas"
+                   class="white-text waves-effect waves-light">
+                    <i class="material-icons">people</i>
+                </a>
+            </li>
+            <li class="tab">
+                <a href="#cobranca"
+                   class="white-text waves-effect waves-light">
+                    <i class="material-icons">attach_money</i>
+                </a>
+            </li>
+            <li class="tab">
+                <a href="#presenca"
+                   class="white-text waves-effect waves-light">
+                    <i class="material-icons">assignment_turned_in</i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!--ALUNOS -->
+    
+    <div ng-controller="AlunosController">
+        <div id="alunos" class="section">
+
+            <div class="collection">
+                <form ng-submit="$event.preventDefault()">
+                <div ng-controller="DemoCtrl as ctrl">
+                <md-autocomplete
+                      md-selected-item="ctrl.selectedItem"
+                      md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+                      md-search-text="ctrl.searchText"
+                      md-selected-item-change="ctrl.selectedItemChange(item)"
+                      md-items="item in ctrl.querySearch(ctrl.searchText)"
+                      md-item-text="item.display"
+                      md-min-length="0"
+                      placeholder="What is your favorite US state?">
+                    <md-item-template>
+                      <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                      No states matching "{{ctrl.searchText}}" were found.
+                      <a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a>
+                    </md-not-found>
+                </md-autocomplete>
+                </div>
+                </form>
+
+
+                <a class="collection-item alunos waves-effect black-text" ng-click="modalAluno($index)" ng-class="{active: $index===selectedIndex}"
+                   ng-repeat="aluno in alunos">{{aluno.nome}}</a>
+            </div>
+            
+            <div class="fixed-action-btn">
+                <a class="btn-floating btn-large waves-effect waves-light grey modal-trigger" ng-click="fabAluno()"
+                   href="#fabalunos" id="confirmar">
+                    <i class="material-icons">add</i>
+                </a>
+            </div>
+        </div>    
+        
+        <div id="fabalunos" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h5>Aluno</h5>
+
+                <form name='formAluno' class="col s12" >
+                    <div class="row">
+                        <input type="text" placeholder="Nome" ng-model="alunoSelect.nome" required name="nomeAluno">
+                        <input type="text" placeholder="Nascimento" ng-model="alunoSelect.dtnasc" onfocus="(this.type='date')">
+                        <input type="number" placeholder="Telefone" ng-model="alunoSelect.celular" input-number>
+                        <input type="text" placeholder="Endereço" ng-model="alunoSelect.endereco">
+                        <input type="text" placeholder="Turma" ng-model="alunoSelect.turma">
+                    </div>
+                </form>                
+            </div>
+            <div class="modal-footer">
+                <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="salvarAluno()"
+                        ng-disabled="formAluno.nomeAluno.$invalid">
+                    Salvar
+                </button>
+                <button class="btn-flat waves-effect waves-red modal-close">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--FIM ALUNOS -->
+    
+    
+    <!--TURMAS -->
+    <div id="turmas" class="section">
+
+        <div class="collection">
+            <a class="collection-item turmas waves-effect black-text">Fraudinha</a>
+            <a class="collection-item turmas waves-effect black-text">Infantil</a>
+            <a class="collection-item turmas waves-effect black-text">Infanto Juvenil</a>
+        </div>
+        
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large waves-effect waves-light grey modal-trigger"
+               href="#fabturmas" id="confirmar">
+                <i class="material-icons">add</i>
+            </a>
+        </div>
+    </div>    
+    
+    <div id="fabturmas" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h5>Turma</h5>
+            <input id="nome-turma" type="text" class="validate" placeholder="Nome">
+            <input id="obs-turma" type="text" class="validate" placeholder="Observação">
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
+                Salvar
+            </button>
+            <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
+                Cancelar
+            </button>
+        </div>
+    </div>
+    <!--FIM TURMAS -->
+    
+    <!--MENSALIDADE -->
+    <div id="cobranca" class="section">
+
+        <div class="collection">
+            <a class="collection-item cobrancas waves-effect black-text">Janeiro/2017</a>
+            <a class="collection-item cobrancas waves-effect black-text">Fevereiro/2017</a>
+            <a class="collection-item cobrancas waves-effect black-text">Novo Uniforme</a>
+        </div>
+        
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large waves-effect waves-light grey modal-trigger"
+               href="#fabcobranca" id="confirmar">
+                <i class="material-icons">add</i>
+            </a>
+        </div>
+    </div>    
+    
+    <div id="fabcobranca" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h5>Cobrança</h5>
+            <input id="nome-cobranca" type="text" class="validate" placeholder="Nome">
+            <input id="data-cobranca" type="text" class="validate" placeholder="Data" onfocus="(this.type='date')">
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
+                Salvar
+            </button>
+            <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
+                Cancelar
+            </button>
+        </div>
+    </div>
+    
+    <div id="fabpagamento" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h5>Pagamento</h5>
+            <input id="cobranca-pagamento" type="text" class="validate" placeholder="Cobrança">
+            <input id="aluno-pagamento" type="text" class="validate" placeholder="Aluno">
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
+                Pagar
+            </button>
+            <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
+                Cancelar
+            </button>
+        </div>
+    </div>
+    <!--FIM MENSALIDADE -->
+    
+    <!--EVENTOS -->
+    <div id="presenca" class="section">
+
+        <div class="collection">
+            <a class="collection-item eventos waves-effect black-text">Treino 26/04/2017</a>
+            <a class="collection-item eventos waves-effect black-text">Treino 28/04/2017</a>
+            <a class="collection-item eventos waves-effect black-text">Jogo 1 Copa Santo André</a>
+        </div>
+        
+        <div class="fixed-action-btn">
+            <a class="btn-floating btn-large waves-effect waves-light grey modal-trigger"
+               href="#fabevento" id="confirmar">
+                <i class="material-icons">add</i>
+            </a>
+        </div>
+    </div>    
+    
+    <div id="fabpresenca" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h5>Marcar Presença</h5>
+            <input id="evento-presenca" type="text" class="validate" placeholder="Evento">
+            <input id="aluno-presenca" type="text" class="validate" placeholder="Aluno">
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
+                Salvar
+            </button>
+            <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
+                Cancelar
+            </button>
+        </div>
+    </div>
+    
+    <div id="fabevento" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h5>Evento</h5>
+            <input id="titulo-evento" type="text" class="validate" placeholder="Título">
+            <input id="data-evento" type="text" class="validate" placeholder="Data" onfocus="(this.type='date')">
+            <input id="obs-evento" type="text" class="validate" placeholder="Observação">
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
+                Salvar
+            </button>
+            <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
+                Cancelar
+            </button>
+        </div>
+    </div>
+    <!--FIM PRESENCA -->
+    
+
+    
+</body>
+</html>

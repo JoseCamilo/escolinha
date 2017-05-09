@@ -1,93 +1,121 @@
 app.controller('AlunosController', function($scope, $http, $timeout, $q, $log) {
 
-    var apiAlunos = 'http://172.16.93.182:3000/api/alunos/';
-    $scope.alunos = [];
-    $scope.alunoSelect = {};
+var apiAlunos = 'http://172.16.93.182:3000/api/alunos/';
+$scope.alunos = [];
+$scope.alunoSelect = {};
+
+
+function carregaAlunos(){
+
+  $http.get(apiAlunos)
+  .success(function(retorno) {
+    $scope.alunos = retorno; // não precisa fazer retorno.data
+  })
+  .error(function(erro) {
+    console.log('Erro em carregaAlunos: ' + erro);
+        $scope.alunos = [{"nome":"erro ao listar alunos"}];
+  });
+
+};
+
+carregaAlunos(); 
+
+$scope.select= function(i) {
+  $scope.selectedIndex=i;
+};
+
+$scope.modalAluno = function(i) {
+   
+    $scope.alunoSelect = {"_id":$scope.alunos[i]._id,
+                          "nome":$scope.alunos[i].nome,
+                          "dtnasc":$scope.alunos[i].dtnasc,
+                          "celular":$scope.alunos[i].celular,
+                          "endereco":$scope.alunos[i].endereco,
+                          "turma":$scope.alunos[i].turma}; 
     
+                 
+    //$('#fabalunos').openModal();
+};
 
-    function carregaAlunos(){
+$scope.fabAluno = function() {
 
-        console.log("carrega alunos");
-      $http.get(apiAlunos)
+    $scope.alunoSelect = {};             
+    //$('#fabalunos').openModal();
+};
+
+
+$scope.salvarAluno = function(){
+
+  //inclusão
+  if("undefined" != typeof $scope.alunoSelect.nome && "undefined" === typeof $scope.alunoSelect._id){
+      
+      $http.post(apiAlunos
+        +'?nome='+ ("undefined" != typeof $scope.alunoSelect.nome ? $scope.alunoSelect.nome : '')
+        +'&dtnasc='+  ("undefined" != typeof $scope.alunoSelect.dtnasc ? $scope.alunoSelect.dtnasc : '')
+        +'&celular='+ ("undefined" != typeof $scope.alunoSelect.celular ? $scope.alunoSelect.celular : '')
+        +'&endereco='+ ("undefined" != typeof $scope.alunoSelect.endereco ? $scope.alunoSelect.endereco : '') 
+        +'&turma='+ ("undefined" != typeof $scope.alunoSelect.turma ? $scope.alunoSelect.turma : '') )
       .success(function(retorno) {
-        $scope.alunos = retorno; // não precisa fazer retorno.data
-          console.log("carrega alunos dados");
+        Materialize.toast(retorno.nome + ' incluido com sucesso!', 4000);
+        carregaAlunos();
       })
       .error(function(erro) {
-        console.log('Erro em carregaAlunos: ' + erro);
-            $scope.alunos = [{"nome":"erro ao listar alunos"}];
+        console.log('Erro incluir em salvarAluno: ' + erro);
+        Materialize.toast('Problema ao alterar', 4000);
       });
 
-    };
-    
-    carregaAlunos(); 
-    
-    $scope.select= function(i) {
-      $scope.selectedIndex=i;
-    };
-    
-    $scope.modalAluno = function(i) {
-       
-        $scope.alunoSelect = {"_id":$scope.alunos[i]._id,
-                              "nome":$scope.alunos[i].nome,
-                              "dtnasc":$scope.alunos[i].dtnasc,
-                              "celular":$scope.alunos[i].celular,
-                              "endereco":$scope.alunos[i].endereco,
-                              "turma":$scope.alunos[i].turma}; 
-        
-                     
-        $('#fabalunos').openModal();
-    };
-    
-    $scope.fabAluno = function() {
 
-        $scope.alunoSelect = {};             
-        $('#fabalunos').openModal();
-    };
+  //Alteração
+  }else if("undefined" != typeof $scope.alunoSelect._id){
+
+      $http.put(apiAlunos
+                  +'?id='+$scope.alunoSelect._id
+                  +'&nome='+$scope.alunoSelect.nome
+                  +'&dtnasc='+$scope.alunoSelect.dtnasc
+                  +'&celular='+$scope.alunoSelect.celular
+                  +'&endereco='+$scope.alunoSelect.endereco
+                  +'&turma='+$scope.alunoSelect.turma)
+      .success(function(retorno) {
+        Materialize.toast(retorno.nome + ' alterado com sucesso!', 4000);
+        carregaAlunos();
+      })
+      .error(function(erro) {
+        console.log('Erro alterar em salvarAluno: ' + erro);
+        Materialize.toast('Problema ao alterar', 4000);
+      });
+  }
+
+}
 
 
-    $scope.salvarAluno = function(){
+$scope.modalExcluiAluno = function(i){
+  console.log("modal exclui");
 
-      //inclusão
-      if("undefined" != typeof $scope.alunoSelect.nome && "undefined" === typeof $scope.alunoSelect._id){
-          
-          $http.post(apiAlunos
-            +'?nome='+ ("undefined" != typeof $scope.alunoSelect.nome ? $scope.alunoSelect.nome : '')
-            +'&dtnasc='+  ("undefined" != typeof $scope.alunoSelect.dtnasc ? $scope.alunoSelect.dtnasc : '')
-            +'&celular='+ ("undefined" != typeof $scope.alunoSelect.celular ? $scope.alunoSelect.celular : '')
-            +'&endereco='+ ("undefined" != typeof $scope.alunoSelect.endereco ? $scope.alunoSelect.endereco : '') 
-            +'&turma='+ ("undefined" != typeof $scope.alunoSelect.turma ? $scope.alunoSelect.turma : '') )
-          .success(function(retorno) {
-            Materialize.toast(retorno.nome + ' incluido com sucesso!', 4000);
-            carregaAlunos();
-          })
-          .error(function(erro) {
-            console.log('Erro incluir em salvarAluno: ' + erro);
-            Materialize.toast('Problema ao alterar', 4000);
-          });
+  $scope.alunoSelect = {"_id":$scope.alunos[i]._id,
+                          "nome":$scope.alunos[i].nome,
+                          "dtnasc":$scope.alunos[i].dtnasc,
+                          "celular":$scope.alunos[i].celular,
+                          "endereco":$scope.alunos[i].endereco,
+                          "turma":$scope.alunos[i].turma};
 
+  //$('#excluialuno').openModal();
+  $scope.openModal = true;
+}
 
-      //Alteração
-      }else if("undefined" != typeof $scope.alunoSelect._id){
+$scope.excluiAluno = function(){
+  $http.delete(apiAlunos
+                  +$scope.alunoSelect._id
+      )
+      .success(function(retorno) {
+        Materialize.toast($scope.alunoSelect.nome + ' excluido com sucesso!', 4000);
+        carregaAlunos();
+      })
+      .error(function(erro) {
+        console.log('Erro em excluiAluno: ' + erro);
+        Materialize.toast('Problema ao excluir', 4000);
+      });
+}
 
-          $http.put(apiAlunos
-                      +'?id='+$scope.alunoSelect._id
-                      +'&nome='+$scope.alunoSelect.nome
-                      +'&dtnasc='+$scope.alunoSelect.dtnasc
-                      +'&celular='+$scope.alunoSelect.celular
-                      +'&endereco='+$scope.alunoSelect.endereco
-                      +'&turma='+$scope.alunoSelect.turma)
-          .success(function(retorno) {
-            Materialize.toast(retorno.nome + ' alterado com sucesso!', 4000);
-            carregaAlunos();
-          })
-          .error(function(erro) {
-            console.log('Erro alterar em salvarAluno: ' + erro);
-            Materialize.toast('Problema ao alterar', 4000);
-          });
-      }
-
-    }
     
     
 // ******************************
@@ -115,7 +143,7 @@ function newState(state) {
  * remote dataservice call.
  */
 function querySearch (query) {
-  self.states        = loadAll();
+  self.states = loadAll();
   var results = query ? self.states.filter( createFilterFor(query) ) : self.states,
       deferred;
   if (self.simulateQuery) {
@@ -139,8 +167,6 @@ function selectedItemChange(item) {
  * lista os alunos
  */
 function loadAll() {
-      console.log("loadall");
-
   return $scope.alunos.map( function (state) {
       state.value = state.nome.toLowerCase();
     return state;
@@ -158,5 +184,25 @@ function createFilterFor(query) {
   };
 
 }
+
+// TRECHO HTML
+
+// <md-autocomplete
+//     md-selected-item="ctrl.selectedItem"
+//     md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+//     md-search-text="ctrl.searchText"
+//     md-selected-item-change="ctrl.selectedItemChange(item)"
+//     md-items="item in ctrl.querySearch(ctrl.searchText)"
+//     md-item-text="item.nome"
+//     md-min-length="0"
+//     placeholder="Pesquisar aluno...">
+//   <md-item-template>
+//     <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.nome}}</span>
+//   </md-item-template>
+//   <md-not-found>
+//     Nada encontrado com "{{ctrl.searchText}}".
+//     <a ng-click="ctrl.newState(ctrl.searchText)">Incluir!</a>
+//   </md-not-found>
+// </md-autocomplete>
 
 });

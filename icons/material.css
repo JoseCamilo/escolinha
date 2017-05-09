@@ -33,3 +33,5 @@
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
+
+.material-icons.red100 { color: #FF0000; }

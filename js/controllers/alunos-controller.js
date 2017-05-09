@@ -1,14 +1,17 @@
-app.controller('AlunosController', function($scope, $http) {
+app.controller('AlunosController', function($scope, $http, $timeout, $q, $log) {
 
+    var apiAlunos = 'http://172.16.93.182:3000/api/alunos/';
     $scope.alunos = [];
     $scope.alunoSelect = {};
     
 
     function carregaAlunos(){
 
-      $http.get('http://172.16.93.182:3000/alunos/')
+        console.log("carrega alunos");
+      $http.get(apiAlunos)
       .success(function(retorno) {
         $scope.alunos = retorno; // não precisa fazer retorno.data
+          console.log("carrega alunos dados");
       })
       .error(function(erro) {
         console.log('Erro em carregaAlunos: ' + erro);
@@ -48,7 +51,7 @@ app.controller('AlunosController', function($scope, $http) {
       //inclusão
       if("undefined" != typeof $scope.alunoSelect.nome && "undefined" === typeof $scope.alunoSelect._id){
           
-          $http.post('http://172.16.93.182:3000/alunos'
+          $http.post(apiAlunos
             +'?nome='+ ("undefined" != typeof $scope.alunoSelect.nome ? $scope.alunoSelect.nome : '')
             +'&dtnasc='+  ("undefined" != typeof $scope.alunoSelect.dtnasc ? $scope.alunoSelect.dtnasc : '')
             +'&celular='+ ("undefined" != typeof $scope.alunoSelect.celular ? $scope.alunoSelect.celular : '')
@@ -67,13 +70,13 @@ app.controller('AlunosController', function($scope, $http) {
       //Alteração
       }else if("undefined" != typeof $scope.alunoSelect._id){
 
-          $http.put('http://172.16.93.182:3000/alunos'
-                                              +'?id='+$scope.alunoSelect._id
-                                              +'&nome='+$scope.alunoSelect.nome
-                                              +'&dtnasc='+$scope.alunoSelect.dtnasc
-                                              +'&celular='+$scope.alunoSelect.celular
-                                              +'&endereco='+$scope.alunoSelect.endereco
-                                              +'&turma='+$scope.alunoSelect.turma)
+          $http.put(apiAlunos
+                      +'?id='+$scope.alunoSelect._id
+                      +'&nome='+$scope.alunoSelect.nome
+                      +'&dtnasc='+$scope.alunoSelect.dtnasc
+                      +'&celular='+$scope.alunoSelect.celular
+                      +'&endereco='+$scope.alunoSelect.endereco
+                      +'&turma='+$scope.alunoSelect.turma)
           .success(function(retorno) {
             Materialize.toast(retorno.nome + ' alterado com sucesso!', 4000);
             carregaAlunos();
@@ -85,86 +88,75 @@ app.controller('AlunosController', function($scope, $http) {
       }
 
     }
+    
+    
+// ******************************
+// AUTO COMPLETE md-complete
+// ******************************
+var self = this;
 
-});
+self.simulateQuery = false;
 
 
-app.controller('DemoCtrl', function($scope, $http,$timeout, $q, $log){
+// list of `state` value/display objects
+self.states        = loadAll();
+self.querySearch   = querySearch;
+self.selectedItemChange = selectedItemChange;
+self.searchTextChange   = searchTextChange;
 
-      var self = this;
+self.newState = newState;
 
-    self.simulateQuery = false;
-    self.isDisabled    = false;
+function newState(state) {
+  alert("Precisa criar esta função para incluir " + state + " !");
+}
 
-    // list of `state` value/display objects
-    self.states        = loadAll();
-    self.querySearch   = querySearch;
-    self.selectedItemChange = selectedItemChange;
-    self.searchTextChange   = searchTextChange;
+/**
+ * Search for states... use $timeout to simulate
+ * remote dataservice call.
+ */
+function querySearch (query) {
+  self.states        = loadAll();
+  var results = query ? self.states.filter( createFilterFor(query) ) : self.states,
+      deferred;
+  if (self.simulateQuery) {
+    deferred = $q.defer();
+    $timeout(function () { deferred.resolve( results ); }, Math.random() * 5000, false);
+    return deferred.promise;
+  } else {
+    return results;
+  }
+}
 
-    self.newState = newState;
+function searchTextChange(text) {
+  $log.info('Text changed to ' + text);
+}
 
-    function newState(state) {
-      alert("Sorry! You'll need to create a Constitution for " + state + " first!");
-    }
+function selectedItemChange(item) {
+  $log.info('Item changed to ' + JSON.stringify(item));
+}
 
-    // ******************************
-    // Internal methods
-    // ******************************
+/**
+ * lista os alunos
+ */
+function loadAll() {
+      console.log("loadall");
 
-    /**
-     * Search for states... use $timeout to simulate
-     * remote dataservice call.
-     */
-    function querySearch (query) {
-      var results = query ? self.states.filter( createFilterFor(query) ) : self.states,
-          deferred;
-      if (self.simulateQuery) {
-        deferred = $q.defer();
-        $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
-        return deferred.promise;
-      } else {
-        return results;
-      }
-    }
+  return $scope.alunos.map( function (state) {
+      state.value = state.nome.toLowerCase();
+    return state;
+  }); 
+}
 
-    function searchTextChange(text) {
-      $log.info('Text changed to ' + text);
-    }
+/**
+ * Create filter function for a query string
+ */
+function createFilterFor(query) {
+  var lowercaseQuery = angular.lowercase(query);
 
-    function selectedItemChange(item) {
-      $log.info('Item changed to ' + JSON.stringify(item));
-    }
+  return function filterFn(state) {
+    return (state.value.indexOf(lowercaseQuery) === 0);
+  };
 
-    /**
-     * Build `states` list of key/value pairs
-     */
-    function loadAll() {
-      var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware,\
-              Florida, Georgia, Hawaii, Idaho, Illinois, Indiana, Iowa, Kansas, Kentucky, Louisiana,\
-              Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana,\
-              Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina,\
-              North Dakota, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina,\
-              South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia,\
-              Wisconsin, Wyoming';
+}
 
-      return allStates.split(/, +/g).map( function (state) {
-        return {
-          value: state.toLowerCase(),
-          display: state
-        };
-      });
-    }
-
-    /**
-     * Create filter function for a query string
-     */
-    function createFilterFor(query) {
-      var lowercaseQuery = angular.lowercase(query);
-
-      return function filterFn(state) {
-        return (state.value.indexOf(lowercaseQuery) === 0);
-      };
-
-    }
 });

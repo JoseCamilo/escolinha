@@ -12,3 +12,23 @@ app.directive('inputNumber', function(){
         }
     };
 });
+
+app.directive('focusOn', function($timeout) {
+   return function(scope, element, attrs) {
+      scope.$on(attrs.focusOn, function(e) {
+          $timeout(function() {
+            element[0].focus(); 
+          });
+      });
+   };
+});
+
+app.directive('focusOff', function($timeout) {
+   return function(scope, element, attrs) {
+      scope.$on(attrs.focusOff, function(e) {
+          $timeout(function() {
+            element[0].blur(); 
+          });
+      });
+   };
+});

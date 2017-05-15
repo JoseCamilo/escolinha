@@ -21,15 +21,27 @@
     
     <script src="js/app.module.js"></script>
     <script src="js/controllers/alunos-controller.js"></script>
+    <script src="js/controllers/main-controller.js"></script>
+    <script src="js/controllers/jqry.js"></script>
 </head>
-<body>
+<body ng-controller="MainController">
 
     <div class="topo-fixo z-depth-1">
         <div class="valign-wrapper cyan darken-4 white-text">
             <h5 class="titulo">Escolinha</h5>
 
+            <div ng-hide="!lPesq">
+                <input focus-on="inputPesq" type="text" placeholder="Pesquisar..." ng-model="searchText">
+            </div>
             <div>
-
+                <a class="white-text waves-effect waves-light opcoes-topo" ng-click="btnPesq()">
+                    <i class="material-icons">search</i>
+                </a>
+                
+            </div>
+            
+            
+            <div>                
                 <i class="material-icons waves-effect waves-light
                           waves-circle dropdown-button"
                     data-activates="submenu" data-gutter="5"
@@ -78,76 +90,109 @@
 
     <!--ALUNOS -->
     
-    <div ng-controller="AlunosController as ctrl">
+    <div ng-controller="AlunosController">
         <div id="alunos" class="section">
 
-            <div class="collection">
+
+            <ul class="collection">
                 
-                <div class="collection-item" layout="column" ng-cloak>
-                    <input type="text" placeholder="Pesquisar..." ng-model="searchText">
-                </div>
+                <li class="collection-item avatar" ng-repeat="aluno in alunos | filter:searchText">
+                  <img src="{{aluno.foto}}" alt="" class="circle">
+                  <span class="title">{{aluno.nome}}</span>
+                    <p>First Line</p>
+                  <a href="#!" class="secondary-content"><i class="material-icons">keyboard_arrow_right</i></a>
+                </li>
 
-                <a class="collection-item alunos waves-effect black-text" ng-click="modalAluno($index)" ng-class="{active: $index===selectedIndex}"
-                    ng-repeat="aluno in alunos | filter:searchText">{{aluno.nome}}
-
-                    <span class="badge" data-target="excluialuno" modal open="openModal" ng-click="openModal = true">
-                        <i class="material-icons red100">delete</i>
-                    </span>
-                </a>
-                 
+            </ul>
+            
+           
+            <div class="fixed-action-btn">
+                <a class='btn-floating btn-large waves-effect waves-light grey' ng-click="incluirAluno()"><i class="material-icons">add</i></a>
             </div>
             
-            <div class="fixed-action-btn">
-                <a class="btn-floating btn-large waves-effect waves-light grey modal-trigger" ng-click="fabAluno()">
-                    <i class="material-icons">add</i>
-                </a>
+                        
+            <!--<div id="demoModal" class="modal">
+                <div class="modal-content">
+                    <h4>Adicionar Aluno</h4>
+                    <p>A bunch of text</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+            </div>-->
+            
+            <div id="fabalunos" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <h5>Aluno</h5>
+
+                    <form name='formAluno' class="col s12" >
+                        <div class="row">
+                            <input type="text" placeholder="Nome" ng-model="alunoSelect.nome" required name="nomeAluno">
+                            <input type="text" placeholder="Nascimento" ng-model="alunoSelect.dtnasc" onfocus="(this.type='date')">
+                            <input type="number" placeholder="Telefone" ng-model="alunoSelect.celular" input-number>
+                            <input type="text" placeholder="Endereço" ng-model="alunoSelect.endereco">
+                            <input type="text" placeholder="Turma" ng-model="alunoSelect.turma">
+                        </div>
+                    </form>                
+                </div>
+                <div class="modal-footer">
+                    <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="salvarAluno()"
+                            ng-disabled="formAluno.nomeAluno.$invalid">
+                        Salvar
+                    </button>
+                    <button class="btn-flat waves-effect waves-red modal-close">
+                        Cancelar
+                    </button>
+                </div>
             </div>
+            
+            <div id="excluialuno" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <h5>Excluir aluno</h5>
+
+                    <p>Deseja excluir ?</p>              
+                </div>
+                <div class="modal-footer">
+                    <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="excluiAluno()">
+                        Excluir
+                    </button>
+                    <button class="btn-flat waves-effect waves-red modal-close">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+            
+            <!--<div id="excluirAluno" class="modal">
+                <div class="modal-content">
+                    <h4>Excluir</h4>
+                    <p>A bunch of text</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+            </div>-->
+            
+<!--
+             <div class="col s4">
+                
+            </div>
+-->
+            
+<!--
+            <div id="demoModal" class="modal">
+                <div class="modal-content">
+                    <h4>{{dummyInputs.modalInput}}</h4>
+                    <p>A bunch of text</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+            </div>
+-->
+            
         </div>    
+
         
-
-        <div id="excluialuno" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <h5>Excluir aluno</h5>
-
-                <p>Deseja excluir {{alunoSelect.nome}} ?</p>              
-            </div>
-            <div class="modal-footer">
-                <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="excluiAluno()">
-                    Excluir
-                </button>
-                <button class="btn-flat waves-effect waves-red modal-close">
-                    Cancelar
-                </button>
-            </div>
-        </div>
-
-
-
-        <div id="fabalunos" class="modal modal-fixed-footer">
-            <div class="modal-content">
-                <h5>Aluno</h5>
-
-                <form name='formAluno' class="col s12" >
-                    <div class="row">
-                        <input type="text" placeholder="Nome" ng-model="alunoSelect.nome" required name="nomeAluno">
-                        <input type="text" placeholder="Nascimento" ng-model="alunoSelect.dtnasc" onfocus="(this.type='date')">
-                        <input type="number" placeholder="Telefone" ng-model="alunoSelect.celular" input-number>
-                        <input type="text" placeholder="Endereço" ng-model="alunoSelect.endereco">
-                        <input type="text" placeholder="Turma" ng-model="alunoSelect.turma">
-                    </div>
-                </form>                
-            </div>
-            <div class="modal-footer">
-                <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="salvarAluno()"
-                        ng-disabled="formAluno.nomeAluno.$invalid">
-                    Salvar
-                </button>
-                <button class="btn-flat waves-effect waves-red modal-close">
-                    Cancelar
-                </button>
-            </div>
-        </div>
-
         
     </div>
     <!--FIM ALUNOS -->

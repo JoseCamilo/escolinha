@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngMaterial']);
+var app = angular.module('app', ['ngRoute' , 'ui.materialize']);
 
 app.directive('inputNumber', function(){
     return {
@@ -32,3 +32,23 @@ app.directive('focusOff', function($timeout) {
       });
    };
 });
+
+
+app.config(function($routeProvider) {
+        $routeProvider
+
+            // route for the home page
+            .when('/', {
+                templateUrl : 'views/abas.html',
+                controller  : 'MainController'
+            })
+            // route for the home page
+            .when('/aluno', {
+                templateUrl : 'views/aluno.html',
+                controller  : 'alunoController'
+            });
+    });
+
+app.controller('alunoController', ["$scope", function ($scope) {
+        $scope.showTabs = true;
+    }]);

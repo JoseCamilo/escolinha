@@ -5,340 +5,40 @@
     <meta charset="utf-8">
     <title>Escolinha</title>
     
-    <link rel="stylesheet" href="css/angular-material.min.css">
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+        <link rel="stylesheet" href="css/angular-material.min.css">
     <link rel="stylesheet" href="icons/material.css">
-    <link rel="stylesheet" href="css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
     <link rel="stylesheet" href="css/estilos.css">
 
-    <script src="js/lib/angular.min.js"></script>
+    <!-- JavaScript for: jQuery, angular, materialize, and angular-materialize. All of which are needed. -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
+    
+
     <script src="js/lib/angular-animate.min.js"></script>    
     <script src="js/lib/angular-aria.min.js"></script>
     <script src="js/lib/angular-material.min.js"></script>
+
     
-    <script src="js/lib/jquery.min.js"></script>
-    <script src="js/lib/materialize.min.js"></script>
+    
     <script src="cordova.js"></script>
     
     <script src="js/app.module.js"></script>
     <script src="js/controllers/alunos-controller.js"></script>
     <script src="js/controllers/main-controller.js"></script>
-    <script src="js/controllers/jqry.js"></script>
+    
+  
+
+
 </head>
-<body ng-controller="MainController">
-
-    <div class="topo-fixo z-depth-1">
-        <div class="valign-wrapper cyan darken-4 white-text">
-            <h5 class="titulo">Escolinha</h5>
-
-            <div ng-hide="!lPesq">
-                <input focus-on="inputPesq" type="text" placeholder="Pesquisar..." ng-model="searchText">
-            </div>
-            <div>
-                <a class="white-text waves-effect waves-light opcoes-topo" ng-click="btnPesq()">
-                    <i class="material-icons">search</i>
-                </a>
-                
-            </div>
-            
-            
-            <div>                
-                <i class="material-icons waves-effect waves-light
-                          waves-circle dropdown-button"
-                    data-activates="submenu" data-gutter="5"
-                    data-constrainwidth="false">
-                        more_vert
-                </i>
-
-                <ul id="submenu" class="dropdown-content">
-                    <li><a class="black-text modal-trigger" href="#fabpresenca">+Presença</a></li>
-                    <li><a class="black-text modal-trigger" href="#fabpagamento">+Pagamento</a></li>
-                    <li><a class="black-text modal-trigger" href="#fabalunos">+Aluno</a></li>
-                    <li><a class="black-text modal-trigger" href="#fabturmas">+Turma</a></li>
-                    <li><a class="black-text modal-trigger" href="#fabevento">+Evento</a></li>
-                    <li><a class="black-text modal-trigger" href="#fabcobranca">+Cobrança</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <ul class="tabs cyan darken-4">
-            <li id="tabaluno" class="tab">
-                <a href="#alunos"
-                   class="white-text waves-effect waves-light">
-                    <i class="material-icons">person</i>
-                </a>
-            </li>
-            <li class="tab">
-                <a href="#turmas"
-                   class="white-text waves-effect waves-light">
-                    <i class="material-icons">people</i>
-                </a>
-            </li>
-            <li class="tab">
-                <a href="#cobranca"
-                   class="white-text waves-effect waves-light">
-                    <i class="material-icons">attach_money</i>
-                </a>
-            </li>
-            <li class="tab">
-                <a href="#presenca"
-                   class="white-text waves-effect waves-light">
-                    <i class="material-icons">assignment_turned_in</i>
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <!--ALUNOS -->
-    
-    <div ng-controller="AlunosController">
-        <div id="alunos" class="section">
-
-
-            <ul class="collection">
-                
-                <li class="collection-item avatar" ng-repeat="aluno in alunos | filter:searchText">
-                  <img src="{{aluno.foto}}" alt="" class="circle">
-                  <span class="title">{{aluno.nome}}</span>
-                    <p>First Line</p>
-                  <a href="#!" class="secondary-content"><i class="material-icons">keyboard_arrow_right</i></a>
-                </li>
-
-            </ul>
-            
-           
-            <div class="fixed-action-btn">
-                <a class='btn-floating btn-large waves-effect waves-light grey' ng-click="incluirAluno()"><i class="material-icons">add</i></a>
-            </div>
-            
-                        
-            <!--<div id="demoModal" class="modal">
-                <div class="modal-content">
-                    <h4>Adicionar Aluno</h4>
-                    <p>A bunch of text</p>
-                </div>
-                <div class="modal-footer">
-                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-                </div>
-            </div>-->
-            
-            <div id="fabalunos" class="modal modal-fixed-footer">
-                <div class="modal-content">
-                    <h5>Aluno</h5>
-
-                    <form name='formAluno' class="col s12" >
-                        <div class="row">
-                            <input type="text" placeholder="Nome" ng-model="alunoSelect.nome" required name="nomeAluno">
-                            <input type="text" placeholder="Nascimento" ng-model="alunoSelect.dtnasc" onfocus="(this.type='date')">
-                            <input type="number" placeholder="Telefone" ng-model="alunoSelect.celular" input-number>
-                            <input type="text" placeholder="Endereço" ng-model="alunoSelect.endereco">
-                            <input type="text" placeholder="Turma" ng-model="alunoSelect.turma">
-                        </div>
-                    </form>                
-                </div>
-                <div class="modal-footer">
-                    <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="salvarAluno()"
-                            ng-disabled="formAluno.nomeAluno.$invalid">
-                        Salvar
-                    </button>
-                    <button class="btn-flat waves-effect waves-red modal-close">
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-            
-            <div id="excluialuno" class="modal modal-fixed-footer">
-                <div class="modal-content">
-                    <h5>Excluir aluno</h5>
-
-                    <p>Deseja excluir ?</p>              
-                </div>
-                <div class="modal-footer">
-                    <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="excluiAluno()">
-                        Excluir
-                    </button>
-                    <button class="btn-flat waves-effect waves-red modal-close">
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-            
-            <!--<div id="excluirAluno" class="modal">
-                <div class="modal-content">
-                    <h4>Excluir</h4>
-                    <p>A bunch of text</p>
-                </div>
-                <div class="modal-footer">
-                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-                </div>
-            </div>-->
-            
-<!--
-             <div class="col s4">
-                
-            </div>
--->
-            
-<!--
-            <div id="demoModal" class="modal">
-                <div class="modal-content">
-                    <h4>{{dummyInputs.modalInput}}</h4>
-                    <p>A bunch of text</p>
-                </div>
-                <div class="modal-footer">
-                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-                </div>
-            </div>
--->
-            
-        </div>    
-
-        
-        
-    </div>
-    <!--FIM ALUNOS -->
-    
-    
-    <!--TURMAS -->
-    <div id="turmas" class="section">
-
-        <div class="collection">
-            <a class="collection-item turmas waves-effect black-text">Fraudinha</a>
-            <a class="collection-item turmas waves-effect black-text">Infantil</a>
-            <a class="collection-item turmas waves-effect black-text">Infanto Juvenil</a>
-        </div>
-        
-        <div class="fixed-action-btn">
-            <a class="btn-floating btn-large waves-effect waves-light grey modal-trigger"
-               href="#fabturmas" id="confirmar">
-                <i class="material-icons">add</i>
-            </a>
-        </div>
-    </div>    
-    
-    <div id="fabturmas" class="modal modal-fixed-footer">
-        <div class="modal-content">
-            <h5>Turma</h5>
-            <input id="nome-turma" type="text" class="validate" placeholder="Nome">
-            <input id="obs-turma" type="text" class="validate" placeholder="Observação">
-
-        </div>
-        <div class="modal-footer">
-            <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
-                Salvar
-            </button>
-            <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
-                Cancelar
-            </button>
-        </div>
-    </div>
-    <!--FIM TURMAS -->
-    
-    <!--MENSALIDADE -->
-    <div id="cobranca" class="section">
-
-        <div class="collection">
-            <a class="collection-item cobrancas waves-effect black-text">Janeiro/2017</a>
-            <a class="collection-item cobrancas waves-effect black-text">Fevereiro/2017</a>
-            <a class="collection-item cobrancas waves-effect black-text">Novo Uniforme</a>
-        </div>
-        
-        <div class="fixed-action-btn">
-            <a class="btn-floating btn-large waves-effect waves-light grey modal-trigger"
-               href="#fabcobranca" id="confirmar">
-                <i class="material-icons">add</i>
-            </a>
-        </div>
-    </div>    
-    
-    <div id="fabcobranca" class="modal modal-fixed-footer">
-        <div class="modal-content">
-            <h5>Cobrança</h5>
-            <input id="nome-cobranca" type="text" class="validate" placeholder="Nome">
-            <input id="data-cobranca" type="text" class="validate" placeholder="Data" onfocus="(this.type='date')">
-
-        </div>
-        <div class="modal-footer">
-            <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
-                Salvar
-            </button>
-            <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
-                Cancelar
-            </button>
-        </div>
-    </div>
-    
-    <div id="fabpagamento" class="modal modal-fixed-footer">
-        <div class="modal-content">
-            <h5>Pagamento</h5>
-            <input id="cobranca-pagamento" type="text" class="validate" placeholder="Cobrança">
-            <input id="aluno-pagamento" type="text" class="validate" placeholder="Aluno">
-
-        </div>
-        <div class="modal-footer">
-            <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
-                Pagar
-            </button>
-            <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
-                Cancelar
-            </button>
-        </div>
-    </div>
-    <!--FIM MENSALIDADE -->
-    
-    <!--EVENTOS -->
-    <div id="presenca" class="section">
-
-        <div class="collection">
-            <a class="collection-item eventos waves-effect black-text">Treino 26/04/2017</a>
-            <a class="collection-item eventos waves-effect black-text">Treino 28/04/2017</a>
-            <a class="collection-item eventos waves-effect black-text">Jogo 1 Copa Santo André</a>
-        </div>
-        
-        <div class="fixed-action-btn">
-            <a class="btn-floating btn-large waves-effect waves-light grey modal-trigger"
-               href="#fabevento" id="confirmar">
-                <i class="material-icons">add</i>
-            </a>
-        </div>
-    </div>    
-    
-    <div id="fabpresenca" class="modal modal-fixed-footer">
-        <div class="modal-content">
-            <h5>Marcar Presença</h5>
-            <input id="evento-presenca" type="text" class="validate" placeholder="Evento">
-            <input id="aluno-presenca" type="text" class="validate" placeholder="Aluno">
-
-        </div>
-        <div class="modal-footer">
-            <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
-                Salvar
-            </button>
-            <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
-                Cancelar
-            </button>
-        </div>
-    </div>
-    
-    <div id="fabevento" class="modal modal-fixed-footer">
-        <div class="modal-content">
-            <h5>Evento</h5>
-            <input id="titulo-evento" type="text" class="validate" placeholder="Título">
-            <input id="data-evento" type="text" class="validate" placeholder="Data" onfocus="(this.type='date')">
-            <input id="obs-evento" type="text" class="validate" placeholder="Observação">
-
-        </div>
-        <div class="modal-footer">
-            <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
-                Salvar
-            </button>
-            <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
-                Cancelar
-            </button>
-        </div>
-    </div>
-    <!--FIM PRESENCA -->
-    
-
-    
+<body>
+    <ng-view></ng-view>
 </body>
 </html>

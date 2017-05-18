@@ -1,0 +1,246 @@
+<div class="topo-fixo z-depth-1">
+    <div class="valign-wrapper cyan darken-4 white-text cabecalho">
+        <h5 class="titulo">Escolinha</h5>
+
+        
+        <!--OPCOES TOPO -->
+        <div ng-hide="!lPesq">
+            <input focus-on="inputPesq" type="text" placeholder="Pesquisar..." ng-model="searchText">
+        </div>
+        <div>
+            <a class="white-text waves-effect waves-light opcoes-topo" ng-click="btnPesq()">
+                <i class="material-icons">search</i>
+            </a>
+
+        </div>
+
+
+        <div class="opcoes-topo">
+            
+            <i class="material-icons dropdown-button" data-activates="submenu" data-gutter="5"
+            data-constrainwidth="false" dropdown>more_vert</i>
+
+
+            <ul id="submenu" class="dropdown-content">
+                <li><a class="black-text modal-trigger" href="#cfgescolas">Escolas</a></li>
+                <li><a class="black-text modal-trigger" href="#cfglicencas">Licenças</a></li>
+            </ul>
+        </div>
+    </div>
+
+    
+    <!--ABAS -->
+    <ul class="cyan darken-4" tabs reload="allTabContentLoaded">
+        <li id="tabaluno" class="tab">
+            <a href="#alunos"
+               class="white-text waves-effect waves-light">
+                <i class="material-icons">person</i>
+            </a>
+        </li>
+        <li class="tab">
+            <a href="#turmas"
+               class="white-text waves-effect waves-light">
+                <i class="material-icons">people</i>
+            </a>
+        </li>
+        <li class="tab">
+            <a href="#cobranca"
+               class="white-text waves-effect waves-light">
+                <i class="material-icons">business_center</i>
+            </a>
+        </li>
+        <li class="tab">
+            <a href="#eventos"
+               class="white-text waves-effect waves-light">
+                <i class="material-icons">assignment</i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!--FAB -->
+<div class="fixed-action-btn click-to-toggle">
+    <a class='btn-floating btn-large waves-effect waves-light grey'>
+        <i class="material-icons">add</i>
+    </a>
+
+    <ul>
+        <li><a class="btn-floating green" data-target='addalunos' modal><i class="material-icons">person_add</i></a></li>
+        <li><a class="btn-floating green" data-target='addturmas' modal><i class="material-icons">group_add</i></a></li>
+        <li><a class="btn-floating red"   data-target='addpagamento' modal><i class="material-icons">attach_money</i></a></li>
+        <li><a class="btn-floating blue"  data-target='addpresenca' modal><i class="material-icons">assignment_turned_in</i></a></li>
+        <li><a class="btn-floating red"   data-target='addcobranca' modal><i class="material-icons">business_center</i></a></li>
+        <li><a class="btn-floating blue"  data-target='addevento' modal><i class="material-icons">assignment</i></a></li>
+    </ul>
+</div>
+
+
+<!--ALUNOS -->
+<div ng-controller="AlunosController">
+    <div id="alunos" class="section">
+
+
+        <ul class="collection">
+
+            <li class="collection-item avatar" ng-repeat="aluno in alunos | filter:searchText">
+              <img src="{{aluno.foto}}" alt="" class="circle">
+              <span class="title">{{aluno.nome}}</span>
+                <p>First Line</p>
+              <a href="#aluno" class="secondary-content"><i class="material-icons">keyboard_arrow_right</i></a>
+            </li>
+
+        </ul>
+    </div>
+    
+    <!--MODAL ALUNOS -->
+    <div id="addalunos" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h5>Adicionar Aluno</h5>
+
+            <form name='formAluno' class="col s12" >
+                <div class="row">
+                    <input type="text" placeholder="Nome" ng-model="alunoSelect.nome" required name="nomeAluno">
+                    <input type="text" placeholder="Nascimento" ng-model="alunoSelect.dtnasc" onfocus="(this.type='date')">
+                    <input type="number" placeholder="Telefone" ng-model="alunoSelect.celular" input-number>
+                    <input type="text" placeholder="Endereço" ng-model="alunoSelect.endereco">
+                    <input type="text" placeholder="Turma" ng-model="alunoSelect.turma">
+                </div>
+            </form>                
+        </div>
+        <div class="modal-footer">
+            <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="salvarAluno()"
+                    ng-disabled="formAluno.nomeAluno.$invalid">
+                Salvar
+            </button>
+            <button class="btn-flat waves-effect waves-red modal-close">
+                Cancelar
+            </button>
+        </div>
+    </div>
+</div>
+<!--FIM ALUNOS -->
+
+
+<!--TURMAS -->
+<div id="turmas" class="section">
+
+    <div class="collection">
+        <a class="collection-item turmas waves-effect black-text">Fraudinha</a>
+        <a class="collection-item turmas waves-effect black-text">Infantil</a>
+        <a class="collection-item turmas waves-effect black-text">Infanto Juvenil</a>
+    </div>
+</div>
+
+<!--MODAL TURMAS -->
+<div id="addturmas" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h5>Adicionar Turma</h5>
+        <input id="nome-turma" type="text" class="validate" placeholder="Nome">
+        <input id="obs-turma" type="text" class="validate" placeholder="Observação">
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
+            Salvar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
+            Cancelar
+        </button>
+    </div>
+</div>
+<!--FIM TURMAS -->
+
+<!--COBRANCA -->
+<div id="cobranca" class="section">
+
+    <div class="collection">
+        <a class="collection-item cobrancas waves-effect black-text">Janeiro/2017</a>
+        <a class="collection-item cobrancas waves-effect black-text">Fevereiro/2017</a>
+        <a class="collection-item cobrancas waves-effect black-text">Novo Uniforme</a>
+    </div>
+</div>
+
+<!--MODAL COBRANCA -->
+<div id="addcobranca" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h5>Adicionar Cobrança</h5>
+        <input id="nome-cobranca" type="text" class="validate" placeholder="Nome">
+        <input id="data-cobranca" type="text" class="validate" placeholder="Data" onfocus="(this.type='date')">
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
+            Salvar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
+            Cancelar
+        </button>
+    </div>
+</div>
+
+<!--MODAL PAGAMENTO -->
+<div id="addpagamento" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h5>Realizar Pagamento</h5>
+        <input id="cobranca-pagamento" type="text" class="validate" placeholder="Cobrança">
+        <input id="aluno-pagamento" type="text" class="validate" placeholder="Aluno">
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
+            Pagar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
+            Cancelar
+        </button>
+    </div>
+</div>
+<!--FIM MENSALIDADE -->
+
+<!--EVENTOS -->
+<div id="eventos" class="section">
+
+    <div class="collection">
+        <a class="collection-item eventos waves-effect black-text">Treino 26/04/2017</a>
+        <a class="collection-item eventos waves-effect black-text">Treino 28/04/2017</a>
+        <a class="collection-item eventos waves-effect black-text">Jogo 1 Copa Santo André</a>
+    </div>
+</div> 
+
+<!--MODAL EVENTOS -->
+<div id="addevento" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h5>Adicionar Evento</h5>
+        <input id="titulo-evento" type="text" class="validate" placeholder="Título">
+        <input id="data-evento" type="text" class="validate" placeholder="Data" onfocus="(this.type='date')">
+        <input id="obs-evento" type="text" class="validate" placeholder="Observação">
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
+            Salvar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
+            Cancelar
+        </button>
+    </div>
+</div>
+
+<!--MODAL PRESENCA -->
+<div id="addpresenca" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h5>Marcar Presença</h5>
+        <input id="evento-presenca" type="text" class="validate" placeholder="Evento">
+        <input id="aluno-presenca" type="text" class="validate" placeholder="Aluno">
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close acao-finalizar">
+            Salvar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close acao-limpar">
+            Cancelar
+        </button>
+    </div>
+</div>
+<!--FIM PRESENCA -->

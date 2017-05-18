@@ -46,7 +46,7 @@ $scope.verAluno = function(i) {
 $scope.incluirAluno = function() {
 
     $scope.alunoSelect = {};             
-    $('#fabalunos').openModal();
+    //$('#fabalunos').openModal();
 };
 
 

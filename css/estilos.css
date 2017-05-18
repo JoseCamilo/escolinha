@@ -10,6 +10,10 @@ body {
     margin-right: auto;
 }
 
+.cabecalho {
+    height: 60px;
+}
+
 /* cor da aba */
 .tabs .indicator {
     background-color: white;
@@ -32,4 +36,5 @@ body {
 
 .opcoes-topo {
     padding-top: 7px;
+    padding-right: 12px;
 }

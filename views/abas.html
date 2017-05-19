@@ -79,14 +79,13 @@
 <div ng-controller="AlunosController">
     <div id="alunos" class="section">
 
-
         <ul class="collection">
 
             <li class="collection-item avatar" ng-repeat="aluno in alunos | filter:searchText">
               <img src="{{aluno.foto}}" alt="" class="circle">
               <span class="title">{{aluno.nome}}</span>
                 <p>First Line</p>
-              <a href="#aluno" class="secondary-content"><i class="material-icons">keyboard_arrow_right</i></a>
+              <a href="#aluno" class="secondary-content" ng-click="verAluno($index)" ng-class="{active: $index===selectedIndex}"><i class="material-icons">keyboard_arrow_right</i></a>
             </li>
 
         </ul>

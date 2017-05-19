@@ -1,1 +1,43 @@
-<h3>Aluno</h3>
+<div class="topo-fixo z-depth-1">
+    <div class="valign-wrapper cyan darken-4 white-text cabecalho">
+        
+        <h5 class="titulo">
+            <a class="white-text waves-effect waves-light" href="#/">
+                <i class="material-icons">arrow_back</i>
+            </a>
+            Aluno
+        </h5>
+
+        <div>
+            <a class="white-text waves-effect waves-light opcoes-topo" ng-click="btnPesq()">
+                <i class="material-icons">done</i>
+            </a>
+        </div>
+        <div>
+            <a class="white-text waves-effect waves-light opcoes-topo" data-target='delalunos' modal>
+                <i class="material-icons">delete</i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+{{alunoSelect.nome}} 
+
+
+<!--MODAL ALUNOS -->
+<div id="delalunos" class="modal">
+    <div class="modal-content">
+        <h5>Deletar Aluno</h5>
+
+        Deseja realmente deletar {{alunoSelect.nome}} ?           
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="">
+            Confirmar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close">
+            Cancelar
+        </button>
+    </div>
+</div>

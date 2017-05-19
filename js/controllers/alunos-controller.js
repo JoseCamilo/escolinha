@@ -1,26 +1,15 @@
-app.controller('AlunosController', function($scope, $http, $timeout, $q, $log) {
+app.controller('AlunosController', function($scope, $http, $timeout, $q, $log, DadoAlunoOp) {
 
-var apiAlunos = 'http://172.16.93.182:3000/api/alunos/';
+
 $scope.alunos = [];
 $scope.alunoSelect = {};
+console.log("carregou controller");
 
 
 function carregaAlunos(){
     
-$scope.alunos = [{"nome":"jose","foto":"https://3.bp.blogspot.com/-CD4dAi_QXY4/UWbIcR9jV9I/AAAAAAAAFno/jPnziUtiSS0/s1600/cortes-de-cabelo-para-rosto-quadrado-2.jpg"},
-                {"nome":"fernando","foto":"http://www.descomplicando.com/img/fotos/fotos%20de%20pessoas%204.JPG"},
-                {"nome":"camilo","foto":"https://imgnzn-a.akamaized.net/2012/1/materias/17166216157.jpg?w=700&h=393&mode=crop"},
-                {"nome":"silva","foto":"https://s3.amazonaws.com/igd-wp-uploads/2014/02/facebook-pessoas.jpg"},
-                {"nome":"sauro","foto":"http://educ-acao.web757.kinghost.net/wp-content/uploads/2012/08/img_0944.jpg"}];
-//  $http.get(apiAlunos)
-//  .success(function(retorno) {
-//    $scope.alunos = retorno; // não precisa fazer retorno.data
-//  })
-//  .error(function(erro) {
-//    console.log('Erro em carregaAlunos: ' + erro);
-//        $scope.alunos = [{"nome":"erro ao listar alunos"}];
-//  });
-
+$scope.alunos = DadoAlunoOp.getAlunos();
+    
 };
 
 carregaAlunos(); 
@@ -31,22 +20,24 @@ $scope.select= function(i) {
 
     
 $scope.verAluno = function(i) {
-   
-    $scope.alunoSelect = {"_id":$scope.alunos[i]._id,
-                          "nome":$scope.alunos[i].nome,
-                          "dtnasc":$scope.alunos[i].dtnasc,
-                          "celular":$scope.alunos[i].celular,
-                          "endereco":$scope.alunos[i].endereco,
-                          "turma":$scope.alunos[i].turma}; 
     
-                 
-    $('#fabalunos').openModal();
+    console.log(i);
+    console.log($scope.alunos[i].nome);
+    
+    $scope.alunoSelect = {"nome":$scope.alunos[i].nome,
+                          "foto":$scope.alunos[i].foto};
+   
+//    $scope.alunoSelect = {"_id":$scope.alunos[i]._id,
+//                          "nome":$scope.alunos[i].nome,
+//                          "dtnasc":$scope.alunos[i].dtnasc,
+//                          "celular":$scope.alunos[i].celular,
+//                          "endereco":$scope.alunos[i].endereco,
+//                          "turma":$scope.alunos[i].turma}; 
 };
 
 $scope.incluirAluno = function() {
 
     $scope.alunoSelect = {};             
-    //$('#fabalunos').openModal();
 };
 
 

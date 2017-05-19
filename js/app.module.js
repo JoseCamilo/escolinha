@@ -45,7 +45,7 @@ app.config(function($routeProvider) {
             // route for the home page
             .when('/aluno', {
                 templateUrl : 'views/aluno.html',
-                controller  : 'alunoController'
+                controller  : 'AlunosController'
             });
     });
 

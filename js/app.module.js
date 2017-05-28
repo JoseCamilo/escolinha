@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute' , 'ui.materialize']);
+var app = angular.module('app', ['ngMaterial','ngRoute' , 'ui.materialize']);
 
 app.directive('inputNumber', function(){
     return {
@@ -42,11 +42,23 @@ app.config(function($routeProvider) {
                 templateUrl : 'views/abas.html',
                 controller  : 'MainController'
             })
-            // route for the home page
+            .when('/abas/:aba', {
+                templateUrl : 'views/abas.html',
+                controller  : 'MainController',
+            })
+            // route for the aluno page
             .when('/aluno', {
                 templateUrl : 'views/aluno.html',
                 controller  : 'AlunosController'
+            })
+            // route for the turma page
+            .when('/turma', {
+                templateUrl : 'views/turma.html',
+                controller  : 'TurmaItController'
             });
+//            .otherwise({
+//                redirectTo: '/'
+//            });
     });
 
 app.controller('alunoController', ["$scope", function ($scope) {

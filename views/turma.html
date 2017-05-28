@@ -1,0 +1,103 @@
+<div class="topo-fixo z-depth-1">
+    <div class="valign-wrapper cyan darken-4 white-text cabecalho">
+        
+        <h5 class="titulo">
+            <a class="white-text waves-effect waves-light" href="#/abas/turmas">
+                <i class="material-icons">arrow_back</i>
+            </a>
+            Turma
+        </h5>
+        
+        <div ng-hide="!lPesq">
+            <input focus-on="inputPesq" type="text" placeholder="Pesquisar..." ng-model="searchText">
+        </div>
+        <div>
+            <a class="white-text waves-effect waves-light opcoes-topo" ng-click="btnPesq()">
+                <i class="material-icons">search</i>
+            </a>
+
+        </div>
+
+        
+        <div>
+            <a class="white-text waves-effect waves-light opcoes-topo" data-target='altturma' modal>
+                <i class="material-icons">create</i>
+            </a>
+        </div>
+        <div>
+            <a class="white-text waves-effect waves-light opcoes-topo" data-target='delturma' modal>
+                <i class="material-icons">delete</i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="body-item">
+    <div class="row">
+        <div class="col s12">
+            <h5>{{turma.titulo}}</h5>
+            <p>{{turma.descricao}}</p>
+        </div>
+    </div>
+    
+   <ul class="collection">
+
+        <li class="collection-item avatar" ng-repeat="aluno in alunos | filter:searchText">
+          <img src="{{aluno.foto}}" alt="" class="circle">
+          <span class="title">{{aluno.nome}}</span>
+            <p>First Line</p>
+          <a href="#" class="secondary-content" ng-click="excAluno($index)" ng-class="{active: $index===selectedIndex}"><i class="material-icons">clear</i></a>
+        </li>
+
+    </ul> 
+</div>
+
+
+<!--MODAL DELETA TURMA -->
+<div id="delturma" class="modal">
+    <div class="modal-content">
+        <h5>Deletar Turma</h5>
+
+        Deseja realmente deletar {{turma.titulo}} ?           
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="">
+            Confirmar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close">
+            Cancelar
+        </button>
+    </div>
+</div>
+
+<!--MODAL ALTERA TURMA -->
+<div id="altturma" class="modal">
+    <div class="modal-content">
+        <h5>Alterar Turma</h5>
+
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="titulo" type="text" class="validate" ng-model="altTurma.titulo">
+                        <label for="titulo">Titulo</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input id="descricao" type="text" class="validate" ng-model="altTurma.descricao">
+                        <label for="descricao">Descrição</label>
+                    </div>
+                </div>
+            </form>
+        </div>          
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="">
+            Confirmar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close">
+            Cancelar
+        </button>
+    </div>
+</div>
+

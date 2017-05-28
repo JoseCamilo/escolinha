@@ -29,6 +29,7 @@ body {
     top: 0;
     width: 100%;
     z-index: 2;
+    background-color: white;
 }
 .section {
     padding-top: 103px;
@@ -37,4 +38,9 @@ body {
 .opcoes-topo {
     padding-top: 7px;
     padding-right: 15px;
+}
+
+.body-item {
+    padding-top: 70px;
+    background-color: white;
 }

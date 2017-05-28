@@ -47,14 +47,19 @@ app.config(function($routeProvider) {
                 controller  : 'MainController',
             })
             // route for the aluno page
-            .when('/aluno', {
+            .when('/aluno/', {
                 templateUrl : 'views/aluno.html',
                 controller  : 'AlunosController'
             })
             // route for the turma page
-            .when('/turma', {
+            .when('/turma/:id', {
                 templateUrl : 'views/turma.html',
                 controller  : 'TurmaItController'
+            })
+            // route for the turma page
+            .when('/cobranca/:id', {
+                templateUrl : 'views/cobranca.html',
+                controller  : 'CobrancaItController'
             });
 //            .otherwise({
 //                redirectTo: '/'

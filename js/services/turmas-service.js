@@ -2,7 +2,6 @@ app.factory('DadoTurmaOp', function ($filter) {
     
     var apiTurmas = 'http://172.16.93.182:3000/api/alunos/';
     var dadosLoadTurma = [];
-    var dadosSelectTurma = {};
     var DadoTurmaOp = {};
     
     
@@ -19,14 +18,9 @@ app.factory('DadoTurmaOp', function ($filter) {
      DadoTurmaOp.getTurmas = function() {
          return this.dadosLoadTurma;
      };
-    
-    DadoTurmaOp.setSelectTurma = function(loadId) {
-         this.dadosSelectTurma = $filter('filter')(this.dadosLoadTurma, { id: loadId }, true)[0];
-        return this.dadosSelectTurma;
-     };
-    
-    DadoTurmaOp.getSelectTurma = function() {
-        return this.dadosSelectTurma;
+        
+    DadoTurmaOp.getTurma = function(loadId) {
+        return $filter('filter')(this.dadosLoadTurma, { id: loadId }, true)[0];
      };
     
     return DadoTurmaOp;

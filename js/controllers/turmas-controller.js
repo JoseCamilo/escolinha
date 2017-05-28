@@ -2,20 +2,15 @@ app.controller('TurmasController', function($scope, $http, $timeout, $q, $log, D
    
     $scope.turmas = DadoTurmaOp.loadTurmas();
     
-    $scope.verTurma = function(i) {
-        DadoTurmaOp.setSelectTurma($scope.turmas[i].id);
-    };
     
-    $scope.select= function(i) {
-      $scope.selectedIndex=i;
-    };
-        
-        
 });
 
 
-app.controller('TurmaItController', function($scope, $http, $timeout, $q, $log, DadoTurmaOp, DadoAlunoOp) {
-    $scope.turma = DadoTurmaOp.getSelectTurma();
+app.controller('TurmaItController', function($scope, $http, $timeout, $q, $log, DadoTurmaOp, DadoAlunoOp, $routeParams) {
+    
+    $scope.idTurma = $routeParams.id;
+    
+    $scope.turma = DadoTurmaOp.getTurma($scope.idTurma);
     $scope.alunos = DadoAlunoOp.getAlunosTurma($scope.turma.titulo);
     $scope.altTurma = angular.copy($scope.turma);
     

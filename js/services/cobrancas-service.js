@@ -19,12 +19,21 @@ app.factory('DadoCobrancaOp', function ($filter) {
     
     DadoCobrancaOp.loadPagamentos = function() {
        this.dadosLoadPagamentos = [ {"id":"1","cobrancaId":"1","alunoId":"1","valor":"10"},
-                                    {"id":"2","cobrancaId":"1","alunoId":"2","valor":"20"},
-                                    {"id":"3","cobrancaId":"1","alunoId":"3","valor":"30"},
+                                    {"id":"2","cobrancaId":"3","alunoId":"2","valor":"20"},
+                                    {"id":"3","cobrancaId":"3","alunoId":"3","valor":"30"},
                                     {"id":"4","cobrancaId":"2","alunoId":"4","valor":"40"},
                                     {"id":"5","cobrancaId":"2","alunoId":"5","valor":"50"}];
         
         return this.dadosLoadPagamentos;
+    };
+    
+    
+    DadoCobrancaOp.newPagAluno = function(id,turma,nome,foto,valor) {
+        return {    "id": id,
+                    "turma": turma,
+                    "nome": nome,
+                    "foto": foto,
+                    "valor": valor};
     };
     
      DadoCobrancaOp.getCobrancas = function() {

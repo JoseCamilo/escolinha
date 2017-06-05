@@ -37,19 +37,45 @@
         <div class="col s12">
             <h5>{{cobranca.titulo}}</h5>
             <p>{{cobranca.descricao}}</p>
+            <h6>Arrecadado: R$ {{arrecadado}}</h6>
         </div>
     </div>
-    
-   <ul class="collection">
+   
+    <ul class="collection">
+        
+        <li class="collection-item cyan darken-4 white-text">
+            <span class="title">Pagadores</span>
+            <a href="" class="secondary-content" ng-click="lverAdimplentes=!lverAdimplentes">
+                <i class="material-icons" ng-hide="lverAdimplentes">keyboard_arrow_down</i>
+                <i class="material-icons" ng-hide="!lverAdimplentes">keyboard_arrow_up</i></a>
+        </li>
+        
 
-        <li class="collection-item avatar" ng-repeat="aluno in alunos | filter:searchText">
+        <li class="collection-item avatar" ng-repeat="aluno in alunosAdimp | filter:searchText" ng-hide="!lverAdimplentes">
           <img src="{{aluno.foto}}" alt="" class="circle">
           <span class="title">{{aluno.nome}}</span>
             <p>First Line</p>
-          <a href="#" class="secondary-content" ng-click="excAluno($index)" ng-class="{active: $index===selectedIndex}"><i class="material-icons">clear</i></a>
+          <a href="" class="secondary-content">R$ {{aluno.valor}}</a>
         </li>
 
-    </ul> 
+        
+        <li class="collection-item cyan darken-4 white-text">
+            <span class="title">Devedores</span>
+            <a href="" class="secondary-content" ng-click="lverInadimplentes=!lverInadimplentes">
+                <i class="material-icons" ng-hide="lverInadimplentes">keyboard_arrow_down</i>
+                <i class="material-icons" ng-hide="!lverInadimplentes">keyboard_arrow_up</i></a>
+        </li>
+           
+            
+        <li class="collection-item avatar" ng-repeat="aluno in alunosInadimp | filter:searchText" ng-hide="!lverInadimplentes">
+          <img src="{{aluno.foto}}" alt="" class="circle">
+          <span class="title">{{aluno.nome}}</span>
+            <p>First Line</p>
+          <a href="" class="secondary-content" ng-click="select($index)" ng-class="{active: $index===selectedIndex}" data-target='addpagalun' modal><i class="material-icons">attach_money</i></a>
+        </li>
+
+    </ul>
+
 </div>
 
 
@@ -99,6 +125,30 @@
     <div class="modal-footer">
         <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="">
             Confirmar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close">
+            Cancelar
+        </button>
+    </div>
+</div>
+
+<!--MODAL PAGAMENTO -->
+<div id="addpagalun" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <h5>Adicionar Pagamento</h5>
+
+        <form name='formPagAlu' class="col s12" >
+            <div class="row">
+                <input name="cobranca-pagamento" type="text" placeholder="Cobrança" ng-model="cobranca.titulo" disabled>
+                <input name="aluno-pagamento" type="text" placeholder="Aluno" ng-model="alunosInadimp[selectedIndex].nome" disabled >
+                <input type="number" string-to-number placeholder="Valor" ng-model="valorPago" required name="valorpago">
+            </div>
+        </form>                
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="viewvalor()"
+                ng-disabled="formPagAlu.valorpago.$invalid">
+            Salvar
         </button>
         <button class="btn-flat waves-effect waves-red modal-close">
             Cancelar

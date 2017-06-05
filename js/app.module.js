@@ -33,6 +33,19 @@ app.directive('focusOff', function($timeout) {
    };
 });
 
+app.filter('isIndexOf', function(){
+    return function (arr, val, prop) {
+      var l = arr.length,
+        k = 0;
+      for (k = 0; k < l; k = k + 1) {
+        if (arr[k][prop] === val) {
+          return true;
+        }
+      }
+      return false;
+    }
+});
+
 
 app.config(function($routeProvider) {
         $routeProvider

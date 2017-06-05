@@ -5,12 +5,23 @@ app.factory('DadoAlunoOp', function ($filter) {
     var DadoAlunoOp = {};
     
     
-    DadoAlunoOp.getAlunos = function() {
+    DadoAlunoOp.loadAlunos = function() {
        this.dadosLoadAlunos = [ {"id":"1","turma":["turma 1","turma 2"],"nome":"jose","foto":"https://3.bp.blogspot.com/-CD4dAi_QXY4/UWbIcR9jV9I/AAAAAAAAFno/jPnziUtiSS0/s1600/cortes-de-cabelo-para-rosto-quadrado-2.jpg"},
                                 {"id":"2","turma":["turma 1","turma 2"],"nome":"fernando","foto":"http://www.descomplicando.com/img/fotos/fotos%20de%20pessoas%204.JPG"},
                                 {"id":"3","turma":["turma 1","turma 3"],"nome":"camilo","foto":"https://imgnzn-a.akamaized.net/2012/1/materias/17166216157.jpg?w=700&h=393&mode=crop"},
                                 {"id":"4","turma":["turma 1","turma 3"],"nome":"silva","foto":"https://s3.amazonaws.com/igd-wp-uploads/2014/02/facebook-pessoas.jpg"},
                                 {"id":"5","turma":["turma 1","turma 4"],"nome":"sauro","foto":"http://educ-acao.web757.kinghost.net/wp-content/uploads/2012/08/img_0944.jpg"}];
+        return this.dadosLoadAlunos;
+    };
+    
+    DadoAlunoOp.newAluno = function(id,turma,nome,foto) {
+        return {    "id": id,
+                    "turma": turma,
+                    "nome": nome,
+                    "foto": foto};
+    };
+    
+    DadoAlunoOp.getAlunos = function() {
         return this.dadosLoadAlunos;
     };
     
@@ -21,6 +32,8 @@ app.factory('DadoAlunoOp', function ($filter) {
     DadoAlunoOp.getAluno = function(loadid) {
         return $filter('filter')(this.dadosLoadAlunos, { id: loadid }, true)[0];
     };
+    
+    
     
     return DadoAlunoOp;
 });   

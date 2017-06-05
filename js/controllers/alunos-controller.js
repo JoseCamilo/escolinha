@@ -8,7 +8,7 @@ console.log("carregou controller");
 
 function carregaAlunos(){
     
-$scope.alunos = DadoAlunoOp.getAlunos();
+$scope.alunos = DadoAlunoOp.loadAlunos();
     
 };
 
@@ -118,69 +118,69 @@ $scope.excluiAluno = function(){
 // ******************************
 // AUTO COMPLETE md-complete
 // ******************************
-var self = this;
-
-self.simulateQuery = false;
-
-
-// list of `state` value/display objects
-self.states        = loadAll();
-self.querySearch   = querySearch;
-self.selectedItemChange = selectedItemChange;
-self.searchTextChange   = searchTextChange;
-
-self.newState = newState;
-
-function newState(state) {
-  alert("Precisa criar esta função para incluir " + state + " !");
-}
-
-/**
- * Search for states... use $timeout to simulate
- * remote dataservice call.
- */
-function querySearch (query) {
-  self.states = loadAll();
-  var results = query ? self.states.filter( createFilterFor(query) ) : self.states,
-      deferred;
-  if (self.simulateQuery) {
-    deferred = $q.defer();
-    $timeout(function () { deferred.resolve( results ); }, Math.random() * 5000, false);
-    return deferred.promise;
-  } else {
-    return results;
-  }
-}
-
-function searchTextChange(text) {
-  $log.info('Text changed to ' + text);
-}
-
-function selectedItemChange(item) {
-  $log.info('Item changed to ' + JSON.stringify(item));
-}
-
-/**
- * lista os alunos
- */
-function loadAll() {
-  return $scope.alunos.map( function (state) {
-      state.value = state.nome.toLowerCase();
-    return state;
-  }); 
-}
-
-/**
- * Create filter function for a query string
- */
-function createFilterFor(query) {
-  var lowercaseQuery = angular.lowercase(query);
-
-  return function filterFn(state) {
-    return (state.value.indexOf(lowercaseQuery) === 0);
-  };
-
-}
+//var self = this;
+//
+//self.simulateQuery = false;
+//
+//
+//// list of `state` value/display objects
+//self.states        = loadAll();
+//self.querySearch   = querySearch;
+//self.selectedItemChange = selectedItemChange;
+//self.searchTextChange   = searchTextChange;
+//
+//self.newState = newState;
+//
+//function newState(state) {
+//  alert("Precisa criar esta função para incluir " + state + " !");
+//}
+//
+///**
+// * Search for states... use $timeout to simulate
+// * remote dataservice call.
+// */
+//function querySearch (query) {
+//  self.states = loadAll();
+//  var results = query ? self.states.filter( createFilterFor(query) ) : self.states,
+//      deferred;
+//  if (self.simulateQuery) {
+//    deferred = $q.defer();
+//    $timeout(function () { deferred.resolve( results ); }, Math.random() * 5000, false);
+//    return deferred.promise;
+//  } else {
+//    return results;
+//  }
+//}
+//
+//function searchTextChange(text) {
+//  $log.info('Text changed to ' + text);
+//}
+//
+//function selectedItemChange(item) {
+//  $log.info('Item changed to ' + JSON.stringify(item));
+//}
+//
+///**
+// * lista os alunos
+// */
+//function loadAll() {
+//  return $scope.alunos.map( function (state) {
+//      state.value = state.nome.toLowerCase();
+//    return state;
+//  }); 
+//}
+//
+///**
+// * Create filter function for a query string
+// */
+//function createFilterFor(query) {
+//  var lowercaseQuery = angular.lowercase(query);
+//
+//  return function filterFn(state) {
+//    return (state.value.indexOf(lowercaseQuery) === 0);
+//  };
+//
+//}
 
 // TRECHO HTML
 

@@ -73,6 +73,11 @@ app.config(function($routeProvider) {
             .when('/cobranca/:id', {
                 templateUrl : 'views/cobranca.html',
                 controller  : 'CobrancaItController'
+            })
+            // route for the turma page
+            .when('/evento/:id', {
+                templateUrl : 'views/evento.html',
+                controller  : 'EventoItController'
             });
 //            .otherwise({
 //                redirectTo: '/'

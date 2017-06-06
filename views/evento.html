@@ -1,0 +1,176 @@
+<div class="topo-fixo z-depth-1">
+    <div class="valign-wrapper cyan darken-4 white-text cabecalho">
+        
+        <h5 class="titulo">
+            <a class="white-text waves-effect waves-light" href="#/abas/eventos">
+                <i class="material-icons">arrow_back</i>
+            </a>
+            Evento
+        </h5>
+        
+        <div ng-hide="!lPesq">
+            <input focus-on="inputPesq" type="text" placeholder="Pesquisar..." ng-model="searchText">
+        </div>
+        <div>
+            <a class="white-text waves-effect waves-light opcoes-topo" ng-click="btnPesq()">
+                <i class="material-icons">search</i>
+            </a>
+
+        </div>
+
+        
+        <div>
+            <a class="white-text waves-effect waves-light opcoes-topo" data-target='altevento' modal>
+                <i class="material-icons">create</i>
+            </a>
+        </div>
+        <div>
+            <a class="white-text waves-effect waves-light opcoes-topo" data-target='delevento' modal>
+                <i class="material-icons">delete</i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="body-item">
+    <div class="row">
+        <div class="col s12">
+            
+        
+            <div class="row">
+
+                <div class="col s6">
+                    <h5>{{evento.titulo}}</h5>
+                     <p>{{evento.descricao}}</p>
+
+                    <h6>Compareceram {{arrecadado}} alunos</h6>
+                    
+                </div>
+               
+                <div class="col s6" input-field>
+                    <select class="" ng-model="turmaSelect.value" material-select watch>
+                        <option ng-repeat="value in turmaSelect.choices">{{value}}</option>
+                    </select>
+                </div>
+
+            </div>
+
+            
+        </div>
+    </div>
+   
+    <ul class="collection">
+        
+        <li class="collection-item cyan darken-4 white-text">
+            <span class="title">Presentes</span>
+            <a href="" class="secondary-content" ng-click="lverPresentes=!lverPresentes">
+                <i class="material-icons" ng-hide="lverPresentes">keyboard_arrow_down</i>
+                <i class="material-icons" ng-hide="!lverPresentes">keyboard_arrow_up</i></a>
+        </li>
+        
+
+        <li class="collection-item avatar" ng-repeat="aluno in alunosPresentes | filter:searchText |  filter :{turma: turmaSelect.value}" ng-hide="!lverPresentes">
+          <img src="{{aluno.foto}}" alt="" class="circle">
+          <span class="title">{{aluno.nome}}</span>
+            <p>First Line</p>
+          <a href="" class="secondary-content"></a>
+        </li>
+
+        
+        <li class="collection-item cyan darken-4 white-text">
+            <span class="title">Ausentes</span>
+            <a href="" class="secondary-content" ng-click="lverAusentes=!lverAusentes">
+                <i class="material-icons" ng-hide="lverAusentes">keyboard_arrow_down</i>
+                <i class="material-icons" ng-hide="!lverAusentes">keyboard_arrow_up</i></a>
+        </li>
+           
+            
+        <li class="collection-item avatar" ng-repeat="aluno in alunosAusentes | filter:searchText |  filter :{turma: turmaSelect.value}" ng-hide="!lverAusentes">
+          <img src="{{aluno.foto}}" alt="" class="circle">
+          <span class="title">{{aluno.nome}}</span>
+            <p>{{aluno.turma}}</p>
+          <a href="" class="secondary-content" ng-click="select($index)" 
+             ng-class="{active: $index===selectedIndex}" data-target='addprealun' modal>
+              <i class="material-icons">done</i></a>
+        </li>
+
+    </ul>
+
+</div>
+
+
+<!--MODAL DELETA EVENTO -->
+<div id="delevento" class="modal">
+    <div class="modal-content">
+        <h5>Deletar Evento</h5>
+
+        Deseja realmente deletar {{evento.titulo}} ?           
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="">
+            Confirmar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close">
+            Cancelar
+        </button>
+    </div>
+</div>
+
+<!--MODAL ALTERA EVENTO -->
+<div id="altevento" class="modal">
+    <div class="modal-content">
+        <h5>Alterar Evento</h5>
+
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="titulo" type="text" class="validate" ng-model="altEvento.titulo">
+                        <label for="titulo">Titulo</label>
+                    </div>
+                    
+                    <div class="input-field col s12">
+                        <input id="data" type="text" class="validate" ng-model="altEvento.data">
+                        <label for="data">Data</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                        <input id="descricao" type="text" class="validate" ng-model="altEvento.descricao">
+                        <label for="descricao">Descrição</label>
+                    </div>
+                </div>
+            </form>
+        </div>          
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="">
+            Confirmar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close">
+            Cancelar
+        </button>
+    </div>
+</div>
+
+<!--MODAL PRESENCA -->
+<div id="addprealun" class="modal">
+    <div class="modal-content">
+        <h5>Adicionar Presença</h5>
+
+        <form name='formPreAlu' class="col s12" >
+            <div class="row">
+                <input name="evento-presenca" type="text" placeholder="Evento" ng-model="evento.titulo" disabled>
+                <input name="aluno-presenca" type="text" placeholder="Aluno" ng-model="alunosAusentes[selectedIndex].nome" disabled >
+            </div>
+        </form>                
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="">
+            Salvar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close">
+            Cancelar
+        </button>
+    </div>
+</div>
+

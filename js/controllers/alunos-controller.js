@@ -1,118 +1,79 @@
-app.controller('AlunosController', function($scope, $http, $timeout, $q, $log, DadoAlunoOp) {
+app.controller('AlunosController', function($scope, $http, $timeout, $q, $log, DadoAlunoOp, DadoTurmaOp) {
 
-
-$scope.alunos = [];
-$scope.alunoSelect = {};
-console.log("carregou controller");
-
-
-function carregaAlunos(){
+    $scope.alunos = DadoAlunoOp.loadAlunos();
+    $scope.turmas = DadoTurmaOp.loadTurmas();
     
-$scope.alunos = DadoAlunoOp.loadAlunos();
+});
+
+app.controller('AlunoItController', function($scope, $http, $timeout, $q, $log, DadoAlunoOp,$routeParams, DadoTurmaOp) {
     
-};
-
-carregaAlunos(); 
-
-$scope.select= function(i) {
-  $scope.selectedIndex=i;
-};
-
+    $scope.idAluno = $routeParams.id;
     
-$scope.verAluno = function(i) {
+    $scope.aluno = DadoAlunoOp.getAluno($scope.idAluno);
+    $scope.tituloTurmas = DadoTurmaOp.getTituloTurmas();
+        
+    $scope.turmaSelect = {
+            value: $scope.aluno.turma,
+            choices: $scope.tituloTurmas
+        };
     
-    console.log(i);
-    console.log($scope.alunos[i].nome);
     
-    $scope.alunoSelect = {"nome":$scope.alunos[i].nome,
-                          "foto":$scope.alunos[i].foto};
-   
-//    $scope.alunoSelect = {"_id":$scope.alunos[i]._id,
-//                          "nome":$scope.alunos[i].nome,
-//                          "dtnasc":$scope.alunos[i].dtnasc,
-//                          "celular":$scope.alunos[i].celular,
-//                          "endereco":$scope.alunos[i].endereco,
-//                          "turma":$scope.alunos[i].turma}; 
-};
+    //Botao pesquisa
+    $scope.lPesq = false;
+    $scope.searchText='';
 
-$scope.incluirAluno = function() {
+    $scope.btnPesq = function(){
+        $scope.lPesq = !$scope.lPesq;
+        $scope.searchText='';
 
-    $scope.alunoSelect = {};             
-};
+        if($scope.lPesq){
+            $scope.focusById('inputPesq');
+        }
+    };
 
+    $scope.focusById = function (id) {
+        $scope.$broadcast(id);
+    };
+    //Botao pesquisa FIM
+    
+    
+    //Campo Data de Nascimento
+    var currentTime = new Date($scope.aluno.dtnasc.split("/")[2] , $scope.aluno.dtnasc.split("/")[1] - 1, $scope.aluno.dtnasc.split("/")[0]);
+    $scope.currentTime = currentTime;
+    $scope.month = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    $scope.monthShort = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    $scope.weekdaysFull = ['Domingo', 'Segunda', 'terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado'];
+    $scope.weekdaysLetter = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+    $scope.disable = [];
+    $scope.today = 'Hoje';
+    $scope.clear = 'Limpar';
+    $scope.close = 'Fechar';
+    var days = 29000;
+    $scope.minDate = (new Date($scope.currentTime.getTime() - ( 1000 * 60 * 60 *24 * days ))).toISOString();
+    $scope.maxDate = (new Date($scope.currentTime.getTime() + ( 1000 * 60 * 60 *24 * days ))).toISOString();
+    $scope.onClose = function () {
+        //console.log('onClose');
+        $scope.aluno.dtnasc = $scope.currentTime;
+    };
+/*    $scope.onStart = function () {
+        console.log('onStart');
+    };
+    $scope.onRender = function () {
+        console.log('onRender');
+    };
+    $scope.onOpen = function () {
+        console.log('onOpen');
+    };
+    $scope.onSet = function () {
+        console.log('onSet');     
+    };
+    $scope.onStop = function () {
+        console.log('onStop');
 
-$scope.salvarAluno = function(){
-
-  //inclusão
-  if("undefined" != typeof $scope.alunoSelect.nome && "undefined" === typeof $scope.alunoSelect._id){
-      
-      $http.post(apiAlunos
-        +'?nome='+ ("undefined" != typeof $scope.alunoSelect.nome ? $scope.alunoSelect.nome : '')
-        +'&dtnasc='+  ("undefined" != typeof $scope.alunoSelect.dtnasc ? $scope.alunoSelect.dtnasc : '')
-        +'&celular='+ ("undefined" != typeof $scope.alunoSelect.celular ? $scope.alunoSelect.celular : '')
-        +'&endereco='+ ("undefined" != typeof $scope.alunoSelect.endereco ? $scope.alunoSelect.endereco : '') 
-        +'&turma='+ ("undefined" != typeof $scope.alunoSelect.turma ? $scope.alunoSelect.turma : '') )
-      .success(function(retorno) {
-        Materialize.toast(retorno.nome + ' incluido com sucesso!', 4000);
-        carregaAlunos();
-      })
-      .error(function(erro) {
-        console.log('Erro incluir em salvarAluno: ' + erro);
-        Materialize.toast('Problema ao alterar', 4000);
-      });
-
-
-  //Alteração
-  }else if("undefined" != typeof $scope.alunoSelect._id){
-
-      $http.put(apiAlunos
-                  +'?id='+$scope.alunoSelect._id
-                  +'&nome='+$scope.alunoSelect.nome
-                  +'&dtnasc='+$scope.alunoSelect.dtnasc
-                  +'&celular='+$scope.alunoSelect.celular
-                  +'&endereco='+$scope.alunoSelect.endereco
-                  +'&turma='+$scope.alunoSelect.turma)
-      .success(function(retorno) {
-        Materialize.toast(retorno.nome + ' alterado com sucesso!', 4000);
-        carregaAlunos();
-      })
-      .error(function(erro) {
-        console.log('Erro alterar em salvarAluno: ' + erro);
-        Materialize.toast('Problema ao alterar', 4000);
-      });
-  }
-
-}
-
-
-$scope.modalExcluiAluno = function(i){
-  console.log("modal exclui");
-
-  $scope.alunoSelect = {"_id":$scope.alunos[i]._id,
-                          "nome":$scope.alunos[i].nome,
-                          "dtnasc":$scope.alunos[i].dtnasc,
-                          "celular":$scope.alunos[i].celular,
-                          "endereco":$scope.alunos[i].endereco,
-                          "turma":$scope.alunos[i].turma};
-
-  //$('#excluialuno').openModal();
-  $scope.openModal = true;
-}
-
-$scope.excluiAluno = function(){
-  $http.delete(apiAlunos
-                  +$scope.alunoSelect._id
-      )
-      .success(function(retorno) {
-        Materialize.toast($scope.alunoSelect.nome + ' excluido com sucesso!', 4000);
-        carregaAlunos();
-      })
-      .error(function(erro) {
-        console.log('Erro em excluiAluno: ' + erro);
-        Materialize.toast('Problema ao excluir', 4000);
-      });
-}
-
+    };*/
+    // FIM Campo Data de Nascimento
+    
+});
     
     
 // ******************************
@@ -201,5 +162,3 @@ $scope.excluiAluno = function(){
 //     <a ng-click="ctrl.newState(ctrl.searchText)">Incluir!</a>
 //   </md-not-found>
 // </md-autocomplete>
-
-});

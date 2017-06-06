@@ -2,7 +2,7 @@
     <div class="valign-wrapper cyan darken-4 white-text cabecalho">
         
         <h5 class="titulo">
-            <a class="white-text waves-effect waves-light" href="#/">
+            <a class="white-text waves-effect waves-light" href="#/abas/alunos">
                 <i class="material-icons">arrow_back</i>
             </a>
             Aluno
@@ -14,23 +14,87 @@
             </a>
         </div>
         <div>
-            <a class="white-text waves-effect waves-light opcoes-topo" data-target='delalunos' modal>
+            <a class="white-text waves-effect waves-light opcoes-topo" data-target='delaluno' modal>
                 <i class="material-icons">delete</i>
             </a>
         </div>
     </div>
 </div>
 
+<div class="body-item">
+    <div class="row">
+        <div class="col s12">
+            <img materialboxed class="materialboxed responsive-img" width="650" src="{{aluno.foto}}">
+            
+            <div class="row">
+                <form name='formAluno' class="col s12" >
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input type="text"      id="alunoNome"         ng-model="aluno.nome" required>
+                        <label for="alunoNome"      >Nome</label>
+                        </div>
+                        
+                        <div class="col s12">
+                        
+                            <label for="alunoNascimento">Data de Nascimento</label>
+                            <input input-date
+                                type="text"
+                                name="created"
+                                id="alunoNascimento"
+                                ng-model="currentTime"
+                                container=""
+                                format="dd/mm/yyyy"
+                                months-full="{{ month }}"
+                                months-short="{{ monthShort }}"
+                                weekdays-full="{{ weekdaysFull }}"
+                                weekdays-short="{{ weekdaysShort }}"
+                                weekdays-letter="{{ weekdaysLetter }}"
+                                disable="disable"
+                                min="{{ minDate }}"
+                                max="{{ maxDate }}"
+                                today="today"
+                                first-day="1"
+                                clear="clear"
+                                close="close"
+                                select-years="100"
+                                on-start="onStart()"
+                                on-render="onRender()"
+                                on-open="onOpen()"
+                                on-close="onClose()"
+                                on-set="onSet()"
+                                on-stop="onStop()" />
+                        </div>
+                        
+                        <div class="input-field col s12">
+                            <input type="number"    id="alunoTelefone"     ng-model="aluno.telefone" input-number>
+                            <label for="alunoTelefone"  >Telefone</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input type="text"      id="alunoEndereco"     ng-model="aluno.endereco">
+                            <label for="alunoEndereco"  >Endereço</label>
+                        </div>
+                        
+                        <div class="col s12" id="alunoTurma" input-field>
+                            <select class="" ng-model="turmaSelect.value" material-select multiple watch>
+                                <option ng-repeat="value in turmaSelect.choices">{{value}}</option>
+                            </select>
+                            <label for="alunoTurma" >Turma</label>
+                        </div>
+                        
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+</div>
 
-{{alunoSelect.nome}} 
 
-
-<!--MODAL ALUNOS -->
-<div id="delalunos" class="modal">
+<!--MODAL DELETA ALUNO -->
+<div id="delaluno" class="modal">
     <div class="modal-content">
         <h5>Deletar Aluno</h5>
 
-        Deseja realmente deletar {{alunoSelect.nome}} ?           
+        Deseja realmente deletar {{aluno.nome}} ?           
     </div>
     <div class="modal-footer">
         <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="">

@@ -15,6 +15,10 @@ app.controller('TurmaItController', function($scope, $http, $timeout, $q, $log, 
     $scope.altTurma = angular.copy($scope.turma);
     
     
+    $scope.select= function(i) {
+      $scope.selectedIndex=i;
+    };
+    
     //Botao pesquisa
     $scope.lPesq = false;
     $scope.searchText='';

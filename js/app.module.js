@@ -60,9 +60,9 @@ app.config(function($routeProvider) {
                 controller  : 'MainController',
             })
             // route for the aluno page
-            .when('/aluno/', {
+            .when('/aluno/:id', {
                 templateUrl : 'views/aluno.html',
-                controller  : 'AlunosController'
+                controller  : 'AlunoItController'
             })
             // route for the turma page
             .when('/turma/:id', {
@@ -78,12 +78,18 @@ app.config(function($routeProvider) {
             .when('/evento/:id', {
                 templateUrl : 'views/evento.html',
                 controller  : 'EventoItController'
+            })
+            // route for the turma page
+            .when('/cfgescolas', {
+                templateUrl : 'views/cfgescolas.html',
+                controller  : 'EscolasController'
+            })
+            // route for the turma page
+            .when('/cfglicencas', {
+                templateUrl : 'views/cfglicencas.html',
+                controller  : 'LicencasController'
             });
 //            .otherwise({
 //                redirectTo: '/'
 //            });
     });
-
-app.controller('alunoController', ["$scope", function ($scope) {
-        $scope.showTabs = true;
-    }]);

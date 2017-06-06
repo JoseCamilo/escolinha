@@ -1,0 +1,68 @@
+<div class="topo-fixo z-depth-1">
+    <div class="valign-wrapper cyan darken-4 white-text cabecalho">
+        
+        <h5 class="titulo">
+            <a class="white-text waves-effect waves-light" href="#/">
+                <i class="material-icons">arrow_back</i>
+            </a>
+            Escolas
+        </h5>
+
+    </div>
+</div>
+
+<div class="body-item">
+    <div class="row">
+        <div class="col s12">
+            
+            <ul class="collection">
+
+                <li class="collection-item" ng-repeat="escola in escolas">
+                  <span class="title">{{escola.nome}}</span>
+                  <a href="#/" class="secondary-content"><i class="material-icons">playlist_play</i></a>
+                </li>
+                
+                <li class="collection-item">
+                  <span class="title"></span>
+                  <a href="" class="secondary-content" data-target='addEscola' modal><i class="material-icons">playlist_add</i></a>
+                </li>
+
+            </ul>
+            
+        </div>
+    </div>
+</div>
+
+
+<!--MODAL ESCOLA -->
+<div id="addEscola" class="modal">
+    <div class="modal-content">
+        <h5>Adicionar Escola</h5>
+
+        <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="nome" type="text" class="validate" ng-model="incEscola.nome">
+                            <label for="nome">Nome</label>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <input id="token" type="text" class="validate" ng-model="incEscola.token">
+                            <label for="token">Token *</label>
+                        </div>
+                    </div>
+                </form>             
+        </div>
+        
+        <p>* Token: Apenas preencha o Token quando já houver criado a Escola em outro aparelho</p>
+        
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="">
+            Salvar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close">
+            Cancelar
+        </button>
+    </div>
+</div>

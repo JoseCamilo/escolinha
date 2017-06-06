@@ -5,6 +5,7 @@ app.factory('DadoTurmaOp', function ($filter) {
     var DadoTurmaOp = {};
     
     
+    
     DadoTurmaOp.loadTurmas = function() {
        this.dadosLoadTurma = [  {"id":"1","titulo":"turma 1","descricao":"descricao 1descricao 1descricao 1descricao 1descricao 1descricao 1descricao 1descricao 1descricao 1descricao 1descricao 1descricao 1descricao 1descricao 1descricao 1descricao 1"},
                                 {"id":"2","titulo":"turma 2","descricao":"descricao 2"},
@@ -17,6 +18,16 @@ app.factory('DadoTurmaOp', function ($filter) {
     
      DadoTurmaOp.getTurmas = function() {
          return this.dadosLoadTurma;
+     };
+    
+    DadoTurmaOp.getTituloTurmas = function() {
+        var tituloTurmas = ["Nenhuma"];
+        
+        for(i=0; i<this.dadosLoadTurma.length; i++){
+             tituloTurmas.push(this.dadosLoadTurma[i].titulo);
+        }
+        
+        return tituloTurmas;
      };
         
     DadoTurmaOp.getTurma = function(loadId) {

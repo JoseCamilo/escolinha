@@ -46,7 +46,9 @@
           <img src="{{aluno.foto}}" alt="" class="circle">
           <span class="title">{{aluno.nome}}</span>
             <p>First Line</p>
-          <a href="#" class="secondary-content" ng-click="excAluno($index)" ng-class="{active: $index===selectedIndex}"><i class="material-icons">clear</i></a>
+            <a href="" class="secondary-content" ng-click="select($index)" 
+             ng-class="{active: $index===selectedIndex}" data-target='delAlunoTurma' modal>
+              <i class="material-icons">clear</i></a>
         </li>
 
     </ul> 
@@ -101,3 +103,19 @@
     </div>
 </div>
 
+<!--MODAL DELETA ALUNO TURMA -->
+<div id="delAlunoTurma" class="modal">
+    <div class="modal-content">
+        <h5>Remover Aluno</h5>
+
+        Deseja realmente remover {{alunos[selectedIndex].nome}} da Turma?           
+    </div>
+    <div class="modal-footer">
+        <button class="btn deep-cyan waves-effect waves-light modal-close" ng-click="">
+            Confirmar
+        </button>
+        <button class="btn-flat waves-effect waves-red modal-close">
+            Cancelar
+        </button>
+    </div>
+</div>

@@ -89,7 +89,7 @@
               <img src="{{aluno.foto}}" alt="" class="circle">
               <span class="title">{{aluno.nome}}</span>
                 <p>First Line</p>
-              <a href="#aluno" class="secondary-content" ng-click="verAluno($index)" ng-class="{active: $index===selectedIndex}"><i class="material-icons">keyboard_arrow_right</i></a>
+              <a href="#aluno/{{aluno.id}}" class="secondary-content" ng-click="verAluno($index)" ng-class="{active: $index===selectedIndex}"><i class="material-icons">keyboard_arrow_right</i></a>
             </li>
 
         </ul>

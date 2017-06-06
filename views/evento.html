@@ -35,27 +35,18 @@
 <div class="body-item">
     <div class="row">
         <div class="col s12">
-            
+            <h5>{{evento.titulo}}</h5>
+            <p>{{evento.descricao}}</p>
         
-            <div class="row">
-
-                <div class="col s6">
-                    <h5>{{evento.titulo}}</h5>
-                     <p>{{evento.descricao}}</p>
-
-                    <h6>Compareceram {{arrecadado}} alunos</h6>
-                    
-                </div>
-               
-                <div class="col s6" input-field>
-                    <select class="" ng-model="turmaSelect.value" material-select watch>
-                        <option ng-repeat="value in turmaSelect.choices">{{value}}</option>
-                    </select>
-                </div>
-
+            <br>
+            
+            <div input-field>
+                <select id="selectTurma" class="" ng-model="turmaSelect.value" material-select watch>
+                    <option ng-repeat="value in turmaSelect.choices">{{value}}</option>
+                </select>
+                <label for="selectTurma">Turmas</label>
             </div>
 
-            
         </div>
     </div>
    
@@ -69,7 +60,7 @@
         </li>
         
 
-        <li class="collection-item avatar" ng-repeat="aluno in alunosPresentes | filter:searchText |  filter :{turma: turmaSelect.value}" ng-hide="!lverPresentes">
+        <li class="collection-item avatar" ng-repeat="aluno in alunosPresentes | filter:searchText |  filter:{turma: turmaSelect.value}" ng-hide="!lverPresentes">
           <img src="{{aluno.foto}}" alt="" class="circle">
           <span class="title">{{aluno.nome}}</span>
             <p>First Line</p>

@@ -19,7 +19,7 @@
 
                 <li class="collection-item" ng-repeat="escola in escolas">
                   <span class="title">{{escola.nome}}</span>
-                  <a href="#/" class="secondary-content"><i class="material-icons">playlist_play</i></a>
+                  <a href="#/" class="secondary-content" ng-click="selectEscola($index)"><i class="material-icons">playlist_play</i></a>
                 </li>
                 
                 <li class="collection-item">

@@ -14,7 +14,22 @@
 <div class="body-item">
     <div class="row">
         <div class="col s12">
-            Teste Licenças
+            <h4>{{escola.nome}}</h4>
+            <br>
+            <h6>Criada em: {{escola.dtcriacao}}</h6>
+            <br>
+            <h6>Preço de autorização: R${{escola.mensalidade}}</h6>
+            <h6>Autorização de uso até: {{escola.vigencia}}</h6>
+            <div>
+                <a class="white-text waves-effect waves-light btn" ng-click="">
+                    Enviar comprovante de pagamento
+                </a>
+            </div>
+            <br>
+            <h6>Token:</h6>
+            <div input-field>
+                <textarea ng-model="escola.token" class="materialize-textarea"></textarea>
+            </div>
         </div>
     </div>
 </div>
